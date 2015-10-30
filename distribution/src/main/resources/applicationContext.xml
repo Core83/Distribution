@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+        >
+
+    <context:property-placeholder location="classpath:config/jdbc.properties"/>
+    <!-- 数据库配置 -->
+    <bean id="baseDataSource" class="org.apache.commons.dbcp2.BasicDataSource"  destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- 初始化连接大小 -->
+        <property name="initialSize">
+            <value>1</value>
+        </property>
+
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle">
+            <value>20</value>
+        </property>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle">
+            <value>3</value>
+        </property>
+
+        <!-- 清除无用连接的等待时间 -->
+        <property name="removeAbandonedTimeout">
+            <value>180</value>
+        </property>
+        <!-- 连接属性 -->
+        <property name="connectionProperties">
+            <value>clientEncoding=UTF-8</value>
+        </property>
+    </bean>
+    <!-- mybatis文件配置，扫描所有mapper文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="baseDataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="mapperLocations" value="classpath*:com/core/mapper/*Mapper.xml" />
+        <property name="typeAliasesPackage" value="com.core.model" />
+    </bean>
+    <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >-->
+        <!--<property name="mapperInterface" value="com.core.dao.SysUserMapper"/>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+    <!-- spring与mybatis整合配置，扫描所有dao -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.core.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+    <!--<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">-->
+        <!--<constructor-arg index="0" ref="sqlSessionFactory" />-->
+    <!--</bean>-->
+    <!--<bean id="userService" class="com.core.service.Impl.UserServiceImpl">-->
+        <!--<property name="userMapper" ref="userMapper" />-->
+    <!--</bean>-->
+
+    <!-- Transaction management, use PlatformTransactionManager instead of JtaTransactionManager
+            with jndi -->
+    <bean id="txManagerUser"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="baseDataSource" />
+    </bean>
+    <tx:advice id="txAdvicedrugUser" transaction-manager="txManagerUser">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="userServiceOperation1"
+                      expression="execution(* com.core.*.service..*Service.*(..)))" />
+        <aop:pointcut id="userServiceOperation2"
+                      expression="execution(* com.core.*.*.service..*Service.*(..)))" />
+    </aop:config>
+
+
+
+</beans>
