@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <title>米其林轮胎 PRIMACY LC</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="团购详情-车小虎">
+        <meta name="author" content="米其林轮胎 PRIMACY LC">
+        <link rel="stylesheet" href="../css/app-v1.css">
+        <link rel="stylesheet" href="css/wx.css">
+		<link rel="stylesheet" href="../js/owl-carousel/owl.carousel.css">
+        <script src="../js/app.v1.js"></script>
+        <script src="../js/app.plugin.js"></script>
+		<script src="../js/owl-carousel/owl.carousel.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				//焦点图
+				$("#carousel-silde").owlCarousel({
+			        items: 1,
+			        autoPlay: true
+			    });
+			});
+		</script>
+    </head>
+    <body class="good-detail">
+        <div class="container us-container ">
+            <header>
+                <div class="us-nav">
+                    <div class="col-xs-2  box-round">
+                        <a href="good-list.html"><span class="fa fa-arrow-left  us-nav-pf"></span></a>
+                    </div>
+                    <div class="col-xs-8">
+                        <h4 class="text-center">米其林轮胎 PRIMACY LC</h4>
+                    </div>
+                    <div class="col-xs-2 text-right box-round">
+                    </div>
+                </div>
+            </header>
+			<div id="carousel-silde" class="owl-carousel"> 
+		        <a class="item"><img  src="../images/p-3.jpg" ></a>
+		        <a class="item"><img  src="../images/p-3.jpg" ></a>
+		    	<a class="item"><img  src="../images/p-3.jpg" ></a>
+		    </div>
+            <section class="gd-con">
+                    <div class="gd-title">
+                        <dl>
+                            <dt class="phone-name">
+                                米其林轮胎 PRIMACY LC
+                            </dt>
+                            <dd>
+                                价格：<span  class="price">￥<strong>700.00</strong></span>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="type-choose">
+                    	<div class="panel-group m-b" id="accordion2"> 
+                    		<div class="panel panel-default"> 
+                    			<div class="panel-heading"> 
+	                    			<a class="accordion-toggle collapsed" data-toggle="collapse" 
+	                    			data-parent="#accordion2" href="#collapseOne"> 请选择型号</a> 
+                    			</div> 
+                    			<div id="collapseOne" class="panel-collapse collapse" style="height: 0px;"> 
+                    				<div class="panel-body text-sm">
+                    					<div class="list-group bg-white">      
+                    						<a href="#" class="list-group-item"> 
+                    							<input type="radio" name="type"/>
+                    							aaaa
+                    						</a> 
+                    						<a href="#" class="list-group-item"> 
+                    							<input type="radio" name="type"/>
+                    							bbbbb
+                    						</a> 
+                    					</div>
+                    				</div> 
+                    			</div> 
+                    		</div> 
+                    	</div>
+                    </div>
+                    <div class="gd-choose">
+                        <dl class="gd-count">
+	                        <dt class="hint">数量</dt>
+	                        <dd class="pull-right">
+		                        <div class="num-wrap">
+				                    <span class="minus minus-disabled"></span>
+				                    <input class="num" value="1">
+				                    <span class="plus"></span>
+				                </div>
+	                        </dd>
+                        </dl>
+                        <dl class="gd-price">
+	                        <dt class="hint">总价</dt>
+	                        <dd class="pull-right">
+		                        ￥700.00
+	                        </dd>
+                        </dl>
+                    </div>
+                    <div class="fudong">
+                        <a href="good-review.html" class="btn btn-orange btn-block">
+                        	￥700.00  
+							立即购买
+						</a>
+                    </div>
+             </section>
+        </div>
+        <div class="nav-bottom">
+        	<div class="col-xs-3 current">
+        		<a href="good-list.html">
+	        		<i class="fa fa-home"></i>
+	        		<p>立即购买</p>
+        		</a>
+        	</div>
+        	<div class="col-xs-3">
+        		<a href="order-list.html">
+	        		<i class="fa fa-file"></i>
+	        		<p>我的订单</p>
+        		</a>
+        	</div>
+        	<div class="col-xs-3">
+        		<a href="group.html">
+	        		<i class="fa fa-group"></i>
+	        		<p>家族成就</p>
+        		</a>
+        	</div>
+        	<div class="col-xs-3">
+        		<a href="qrcode.html">
+	        		<i class="fa fa-qrcode"></i>
+	        		<p>我的二维码</p>
+        		</a>
+        	</div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,95 @@
+body.userInfo{
+	background:#fff;
+}
+.infoHead{
+	background:url(../../images/wx-headBg.png) no-repeat;
+	background-size:cover;
+	padding-bottom: 15px;
+	font-family:"宋体";
+}
+.infoHead a{
+	margin:15px;
+	color:#fff;
+	font-size:21px;
+	display: inline-block;
+}
+.infoHead a.share{
+	width:25px;
+	height:25px;
+	display:inline-block;
+  	float: right;
+  	background:url(../../images/wx-icon.png) no-repeat;
+  	background-size:cover;
+}
+
+.infoHead a span{
+	margin-right:5px;
+}
+.infoHead img{
+	display:block;
+	margin:45px auto;
+}
+.infoHead p{
+  	color: #fff;
+  	text-align: center;
+}
+.infoHead p.name{
+  	font-size:35px;
+  	margin-top: -30px;
+}
+.infoHead p.name+p{
+	font-size:19px;
+	margin-top: -15px;
+}
+.phNum{
+	padding:15px;
+	border-bottom:1px solid #ddd;
+}
+.phNum label{
+	color:#3B3C3B;
+	font-size:16px;
+}
+.phNum .numbox span{
+	color:#000;
+	font-size:28px;
+}
+.phNum .numbox img{
+	height: 35px;
+	float:right;
+}
+.btn-nav {
+  	text-align: center;
+}
+.btn-nav div.iconbox{
+	display:inline-block;
+	margin: 35px 10px;
+}
+.btn-nav div.iconbox span{
+	font-size:18px;
+	margin-top:10px;
+}
+.btn-nav div.iconbox a{
+	width:95px;
+	height:95px;
+	display:block;
+}
+.btn-nav div.iconbox:first-child a{
+	background:url(../../images/wx-icon.png) no-repeat;
+	background-size:cover;
+}
+.btn-nav div.iconbox:last-child a{
+	background:url(../../images/wx-icon.png) no-repeat -137px;
+	background-size:cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
