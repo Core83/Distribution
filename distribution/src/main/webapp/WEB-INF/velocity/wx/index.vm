@@ -1,0 +1,12 @@
+#parse("/sys/sys_param.vm")
+<!DOCTYPE html>
+<html lang="zh-cn">
+    #parse("/mer/head.vm")
+<body>
+<div class="container us-container " id="main">
+
+</div>
+    #parse("mer/menu.vm")
+</body>
+
+</html>

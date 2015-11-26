@@ -1,0 +1,113 @@
+#parse("/sys/sys_param.vm")
+<!DOCTYPE html>
+<html lang="zh-cn">
+    #parse("/mer/head.vm")
+<body class="group">
+<div class="container us-container " id="main">
+    <header>
+        <div class="us-nav">
+            <div class="col-xs-2  box-round">
+            </div>
+            <div class="col-xs-8">
+                <h4 class="text-center">订单列表</h4>
+            </div>
+        </div>
+    </header>
+    <section class="order-list">
+        <div class="tab-content">
+            <div class="tab-pane active" id="order-info">
+                <div class="order-info-1  ">
+                    <div class="p25">
+                        <ul>
+                            <li>
+                                <input type="text" class="form-control2" placeholder="商品名">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer btn-footer">
+                        <button type="button" class="btn btn-default btn-block">
+			                        <span class="fa fa-search">
+			                        </span>
+                            查询
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        #if(!$orders)
+            <h3 style="text-align: center">
+                您没有订单信息!
+            </h3>
+        #end
+        #foreach($order in $orders)
+
+        <div class="order_info" #if(${order.status}) onclick="window.location='$!{CONTEXT_PATH}/order/detail?orderId=${order.orderId}&openId=${openId}'" #end>
+            <h3 >
+                $!cache.getCachedName("MER_NAME", "$!{order.gdsId}", "")
+            </h3>
+            <ul class="productList">
+                <li class="hproduct noclick">
+                    <img class="photo" src="${RESOURCE_PATH}/images/$!cache.getCachedName("MER_PIC", "$!{order.gdsId}", "")">
+                    <p class="fn">
+                        订单号：${order.orderId}
+                    </p>
+                    <p class="sku">
+                        <em>
+                            订单状态：
+                        </em>
+				                <span class="red">
+                                    #if(${order.status})
+                                     支付完成
+                                    #else
+                                        取消
+                                    #end
+				                </span>
+                    </p>
+                    <p class="sku">
+                        <em>
+                            价格：
+                        </em>
+				                <span class="price">
+				                    ￥$!number.format("#0.00",$math.div(${order.gdsAmount},"100"))
+				                </span>
+                    </p>
+                    <div class="sku sku_num">
+                        <em>
+                            下单时间：
+                        </em>
+				                <span>
+                                    $!date.format('yyyy-MM-dd HH:mm:ss',$!{order.createTime})
+				                </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        #end
+    </section>
+</div>
+<div class="nav-bottom">
+    <div class="col-xs-3 ">
+        <a href="$!{CONTEXT_PATH}/mer/init?openId=$!{openId}">
+            <i class="fa fa-home"></i>
+            <p>立即购买</p>
+        </a>
+    </div>
+    <div class="col-xs-3 current">
+        <a href="$!{CONTEXT_PATH}/order/init?openId=$!{openId}" >
+            <i class="fa fa-file"></i>
+            <p>我的订单</p>
+        </a>
+    </div>
+    <div class="col-xs-3">
+        <a href="$!{CONTEXT_PATH}/user/initUser?openId=$!{openId}" >
+            <i class="fa fa-group"></i>
+            <p>家族成就</p>
+        </a>
+    </div>
+    <div class="col-xs-3">
+        <a href="$!{CONTEXT_PATH}/card/init?openId=$!{openId}">
+            <i class="fa fa-qrcode"></i>
+            <p>我的二维码</p>
+        </a>
+    </div>
+</div>

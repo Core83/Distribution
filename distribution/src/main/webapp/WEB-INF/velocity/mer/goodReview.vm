@@ -1,0 +1,103 @@
+#parse("/sys/sys_param.vm")
+<header>
+    <div class="us-nav">
+        <div class="col-xs-2  box-round">
+            <a href="$!{CONTEXT_PATH}/mer/detail?gdsId=${merInfo.gdsId}&openId=${openId}"><span class="fa fa-arrow-left  us-nav-pf"></span></a>
+        </div>
+        <div class="col-xs-8">
+            <h4 class="text-center">订单配送信息</h4>
+        </div>
+    </div>
+</header>
+<section class="outbox">
+    <form action="$!{CONTEXT_PATH}/mer/submit" id="addressForm" method="post" >
+    <div class="dist-form">
+        <h3>
+            请填写配送信息<span class="red"></span>
+        </h3>
+        <input type="hidden" name="orderId" value="$!{orderInfo.orderId}">
+        <input type="hidden" name="openId" value="$!{openId}">
+        <input type="hidden" name="gdsTitle"  $!cache.getCachedName("MER_NAME", "$!{orderInfo.gdsId}", "")>
+        <input type="text" class="form-control" placeholder="姓名（必填）" id="receiveName" value="" name="receiver" notnull="true">
+        <input type="text" class="form-control" placeholder="手机号码（必填）" id="phone" name="mobilePhone" value="" notnull="true">
+        <select class="form-control" id="provinceCodeSend" dict="PROVINCE" name="province" linkSelect="cityCodeSend" url="$!{CONTEXT_PATH}/cache/area" notnull="true">
+        </select>
+        <select class="form-control" id="cityCodeSend" name="city" dict="CITY" nullText="全部" url="$!{CONTEXT_PATH}/cache/area" notnull="true">
+        </select>
+        <input type="text" class="form-control" placeholder="送货地址(市区以下详细地址)" name="address" value="" notnull="true">
+        <input type="text" class="form-control" placeholder="邮编" name="">
+    </div>
+    <div class="distribution">
+        <h3>配送方式</h3>
+        <div class="dist-con">
+            <input type="radio" checked="checked">
+            <label>
+                包邮
+            </label>
+            <strong>(免费)</strong>
+        </div>
+        <h3>支付方式</h3>
+        <div class="dist-con pay">
+            <input type="radio" checked="checked" value="wx" name="payType">
+            <label>
+                微信支付
+            </label>
+            <strong>方便安全，放心使用</strong>
+        </div>
+    </div>
+
+    <div class="panel panel-orange panel-orange2 hover_center">
+        <div name="panel-heading_div" class="panel-heading" href="#collapse1" data-toggle="collapse" data-parent="#accordion">
+            <div class="panel-title">
+                            <span id="showshow">
+                                <label>
+                                    备注
+                                </label>
+                            </span>
+                <a class="pull-right "><span class="fa fa-chevron-down"></span></a>
+            </div>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <textarea class="remark" placeholder="备注（如：受理单寄送地址）"></textarea>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="btn-next">
+        <a href="javascript:void(0)" onclick="submit('$!{CONTEXT_PATH}/mer/submit')" class="btn btn-orange btn-block">确认下单</a>
+    </div>
+</section>
+<script type="text/javascript" src="$!{RESOURCE_PATH}/js/jquery.select.js"></script>
+<script type="application/javascript">
+    $(function(){
+        $("#provinceCodeSend").selectBDX({dict:'PROVINCE', nullText:'全部', linkSelect:'cityCode', url:'$!{CONTEXT_PATH}/cache/area'});
+        $("#cityCodeSend").selectBDX({dict:'CITY', nullText:'全部', parentValue:'brysj', url:'$!{CONTEXT_PATH}/cache/area'});
+    });
+    function submit(url) {
+        var ret = true;
+        $("input,select,label", $("#addressForm")).each(function(i){
+            if ($(this).attr("notnull") && $(this).attr("notnull") == "true"||$(this).attr("notnull") == "1") {
+                if ($(this).val() == null || $(this).val() == "") {
+                    alert("*标记不能为空！");
+                    $(this).focus();
+                    ret = false;
+                    return false;
+                }
+
+            }
+
+        });
+        if(ret){
+            $("#addressForm").submit();
+        }
+    }
+    function goMain (formId,path) {
+        var data=$("#"+formId).serialize();
+        $("#main").load(path,data);
+    }
+</script>

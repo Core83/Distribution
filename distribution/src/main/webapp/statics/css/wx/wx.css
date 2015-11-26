@@ -1,3 +1,6 @@
+html,body{
+	height: 100%;
+}
 body {
 	background:#f0f0f0;
 	font-family:"microsoft yahei", "arial";
@@ -348,7 +351,7 @@ width:auto;
 	border-bottom: 1px solid #cbcbcb;
 }
 .gd-choose{
-	height:100px;
+	height:45px;
 	background:#fff;
 	margin: 10px 0;
 	padding:0 10px;
@@ -365,7 +368,7 @@ width:auto;
 }
 .gd-price{
 	clear:both;
-	border-top:1px solid #ddd;
+	/*border-top:1px solid #ddd;*/
 }
 .gd-price .pull-right{
 	color:#f60;
@@ -1740,6 +1743,114 @@ font-weight: bold;
 .nav-bottom div.current{background-color:#F3E02D;}
 .nav-bottom{position: fixed;bottom: -5px;width: 100%;}
 .nav-bottom a{color:#fff;display: block;width: 100%;height: 100%;}
+/*group.html*/
+.group .top{
+	padding:15px;
+	background-color: #FCD37C;
+    border-bottom: 10px solid rgba(255, 0, 0, 0.68);
+}
+.group .top img{
+	width:100%;
+}
+.group .top table td a{
+	color: red;
+	cursor: pointer;
+}
+.group .top table td{
+	white-space: nowrap;
+}
+.group .top table td:nth-child(odd){
+	width:60px;
+	text-align: right;
+    color: #9A9A9A;
+}
+.group .content h5{
+	text-align: center;
+    color: #f4f5f4;
+    background-color: #FE4327;
+    padding-bottom: 13px;
+}
+.content .panel{
+	border-top: 1px solid #ddd;
+}
+.content a .fa{
+	color:#000;
+}
+.content .panel-heading a{
+	width: 100%;
+    display: inline-block;
+}
+.content .panel-heading{
+	border-bottom: 1px solid #ddd !important;
+}
+.qrcode .panel-body{
+	text-align: center;
+}
+.qrcode .panel-body button{
+	margin-top: 10px;
+}
+.fans a{
+	text-align: left;
+}
+.fans a span{
+	line-height: 20px;
+	padding:0px;
+	color:red;
+}
+body.group{
+	background-color:#fff;
+}
+.content .userList{
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+}
+.qrcode{
+	background: #fff url(../../images/bb.jpg) no-repeat;
+	height: 80%;
+}
+.qrcode .top{
+	background-color: rgba(220, 220, 220, 0.39);
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 10px #BBB5B5;
+}
+
+.qrcode .top label{
+	color: #000;
+    font-weight: bold;
+}
+.qrcode .top p{
+	border-top:1px dashed #777373;
+	text-align: left;
+}
+.qrcode .top img{
+	width: 50%;
+}
+.qrcode .top span{
+	display: block;
+    font-size: 12px;
+}
+.qrcode .btnbox{
+    text-align: center;
+    padding: 20px;
+}
+.qrcode .btnbox .btn{
+    background-color: #36B92C;
+    border-color: #36B92C;
+    width: 120px;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

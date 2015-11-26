@@ -2,6 +2,7 @@ package com.core.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by core on 15/11/15.
@@ -23,7 +24,15 @@ public class SequenceUtil {
         sb.append(prefix).append(format.format(dt));
         return Long.valueOf(sb.toString());
     }
+    public static String redId() {
+        StringBuffer sb = new StringBuffer();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date dt = new Date();
+        Random random=new Random();
+        sb.append(format.format(dt)).append(random.nextInt(100000)).append(random.nextInt(100000));
+        return sb.toString();
+    }
     public static void main(String[] args)  {
-        System.out.println(genarateIdyyyyMMdd("1", "2"));
+        System.out.println(redId());
     }
 }

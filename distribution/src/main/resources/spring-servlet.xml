@@ -8,6 +8,7 @@
       http://www.springframework.org/schema/context/spring-context.xsd
       http://www.springframework.org/schema/mvc
       http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
     <!--这一句处理对静态资源的访问-->
     <mvc:default-servlet-handler />
     <!--这一句指定了扫描注解生成Controller的根包名-->
@@ -22,6 +23,7 @@
             </list>
         </property>
     </bean>
+    <bean class="com.core.util.BeanFactory" scope="singleton" lazy-init="false"/>
     <!--规定模板文件的类型和位置-->
     <bean id="velocityConfigurer"
           class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
@@ -40,4 +42,45 @@
         <property name="contentType" value="text/html;charset=utf-8" />
         <property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml"/>
     </bean>
+    <!--<mvc:interceptors>-->
+        <!--&lt;!&ndash; 日志拦截器 &ndash;&gt;-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**" />-->
+            <!--<mvc:exclude-mapping path="/static/**" />-->
+            <!--<bean class="com.core.util.SessionFilter" >-->
+            <!--<property name="excludes">-->
+                <!--<list>-->
+                    <!--<value>/welcome</value>-->
+                    <!--<value>/weixin</value>-->
+                    <!--<value>/mer/init</value>-->
+                    <!--<value>/mer/detail</value>-->
+                    <!--<value>/mer/orderInit</value>-->
+                    <!--<value>/mer/code</value>-->
+                    <!--<value>/mer/submit</value>-->
+                    <!--<value>/user/initUser</value>-->
+                    <!--<value>/code</value>-->
+                    <!--<value>/order/init</value>-->
+                    <!--<value>/order/notify</value>-->
+                    <!--<value>/order/show</value>-->
+                    <!--<value>/user/initUser</value>-->
+                    <!--<value>/cache</value>-->
+                    <!--<value>/cache/area</value>-->
+                    <!--<value>/createMenu</value>-->
+                    <!--<value>/login</value>-->
+                    <!--<value>.css</value>-->
+                    <!--<value>.js</value>-->
+                    <!--<value>.jpg</value>-->
+                    <!--<value>.woff</value>-->
+                    <!--<value>.svg</value>-->
+                    <!--<value>.ttf</value>-->
+                    <!--<value>.png</value>-->
+                    <!--<value>.gif</value>-->
+                    <!--<value>.swf</value>-->
+                    <!--<value>.html</value>-->
+                    <!--<value>.vm</value>-->
+                <!--</list>-->
+            <!--</property>-->
+            <!--</bean>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
 </beans>

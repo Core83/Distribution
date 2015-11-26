@@ -6,6 +6,7 @@ import com.core.model.SysUser;
 import com.core.model.SysUserExample;
 import com.core.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**

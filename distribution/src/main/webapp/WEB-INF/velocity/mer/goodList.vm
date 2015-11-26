@@ -1,0 +1,45 @@
+#parse("/sys/sys_param.vm")
+<!DOCTYPE html>
+<html lang="zh-cn">
+#parse("/mer/head.vm")
+<body>
+<div class="container us-container">
+    <header>
+        <div class="us-nav">
+            <div class="col-xs-2  box-round">
+            </div>
+            <div class="col-xs-8">
+                <h4 class="text-center">产品列表</h4>
+            </div>
+            <div class="col-xs-2 text-right box-round">
+            </div>
+        </div>
+    </header>
+    <section class="treaty-list ">
+#foreach($merInfo in $mers)
+        <div class="col-xs-12">
+            <div class="list-good">
+                <a  href="$!{CONTEXT_PATH}/mer/detail?gdsId=${merInfo.gdsId}&openId=${openId}"><img src="$!{RESOURCE_PATH}/images/${merInfo.picUrl}" /></a>
+                <dl>
+                    <dt class="good-name">
+                        <a  href="$!{CONTEXT_PATH}/mer/detail?gdsId=${merInfo.gdsId}&openId=${openId}">
+                            ${merInfo.gdsTitle}
+                        </a>
+                    </dt>
+                    <dd class="price">
+                        ￥<strong>$!number.format("#0.00",$math.div(${merInfo.gdsPrice},"100"))</strong>
+                    </dd>
+                    <dd>
+                        <a href="$!{CONTEXT_PATH}/mer/detail?gdsId=${merInfo.gdsId}&openId=${openId}" class="btn btn-orange btn-block ">
+                            立即购买
+                        </a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+#end
+    </section>
+</div>
+
+</body>
+</html>

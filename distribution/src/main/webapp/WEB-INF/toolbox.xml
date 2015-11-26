@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <toolbox>
     <tool>
+        <key>cache</key>
+        <scope>application</scope>
+        <class>com.core.util.CachedDict</class>
+    </tool>
+    <tool>
         <key>date</key>
         <scope>request</scope>
         <class>
@@ -32,5 +37,10 @@
         <key>params</key>
         <scope>request</scope>
         <class>org.apache.velocity.tools.view.tools.ParameterParser</class>
+    </tool>
+    <tool>
+        <key>number</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.NumberTool</class>
     </tool>
 </toolbox>

@@ -63,7 +63,7 @@ public class HttpClientUtil {
             inputStream = null;
             conn.disconnect();
             log.debug("==============="+buffer.toString()+"===========================");
-//            jsonObject = JSONObject.parseObject(buffer.toString());
+            jsonObject = JSONObject.parseObject(buffer.toString());
         } catch (ConnectException ce) {
             log.error("连接超时：{}", ce);
         } catch (Exception e) {

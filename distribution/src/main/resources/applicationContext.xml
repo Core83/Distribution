@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd"
         >
 
     <context:property-placeholder location="classpath:config/jdbc.properties"/>
@@ -58,7 +59,14 @@
     <!--<bean id="userService" class="com.core.service.Impl.UserServiceImpl">-->
         <!--<property name="userMapper" ref="userMapper" />-->
     <!--</bean>-->
-
+    <cache:annotation-driven cache-manager ="ehcacheCacheManager" />
+    <bean id = "ehcacheCacheManager" class= "org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"></property>
+    </bean>
+    <bean id = "ehcacheManager"
+          class= "org.springframework.cache.ehcache.EhCacheManagerFactoryBean" >
+        <property name = "configLocation" value= "classpath:ehcache.xml" />
+    </bean>
     <!-- Transaction management, use PlatformTransactionManager instead of JtaTransactionManager
             with jndi -->
     <bean id="txManagerUser"
@@ -67,16 +75,23 @@
     </bean>
     <tx:advice id="txAdvicedrugUser" transaction-manager="txManagerUser">
         <tx:attributes>
-            <tx:method name="get*" read-only="true" />
-            <tx:method name="*" />
+            <tx:method name="select*" read-only="true"/>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="load*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="read*" read-only="true"/>
+            <tx:method name="sync*"/>
+            <tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
         </tx:attributes>
     </tx:advice>
     <aop:config>
         <aop:pointcut id="userServiceOperation1"
-                      expression="execution(* com.core.*.service..*Service.*(..)))" />
+                      expression="execution(* com.core.service..*Service.*(..)))" />
         <aop:pointcut id="userServiceOperation2"
-                      expression="execution(* com.core.*.*.service..*Service.*(..)))" />
+                      expression="execution(* com.core.service..*Service.*(..)))" />
     </aop:config>
+
 
 
 

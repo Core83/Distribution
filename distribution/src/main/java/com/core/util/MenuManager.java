@@ -1,8 +1,12 @@
 package com.core.util;
 
+import com.core.WeChat.Config;
+import com.iboot.weixin.api.OauthAPI;
+import com.iboot.weixin.api.config.ApiConfig;
 import com.iboot.weixin.api.entity.Menu;
 import com.iboot.weixin.api.entity.MenuButton;
 import com.iboot.weixin.api.enums.MenuType;
+import com.iboot.weixin.api.enums.OauthScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,23 +20,23 @@ import java.util.List;
  */
 public class MenuManager {
     private static Logger log= LoggerFactory.getLogger(MenuManager.class);
-    private static String URL="http://c7f94223.ngrok.io/distribution";
-
+    private static ApiConfig config=new ApiConfig(Config.APPID,Config.AppSecret,true);
+    private static OauthAPI oauthAPI = new OauthAPI(config);
     public  Menu getMenu(){
-        log.debug("============="+URL+"=================");
+        log.debug("============="+ Config.SER_URL+"=================");
         Menu menu=new Menu();
         List<MenuButton> button=new ArrayList<>(3);
         MenuButton store=new MenuButton();
         store.setName("商城");
-        store.setUrl("http://c7f94223.ngrok.io/distribution/mer/init");
+        store.setUrl(oauthAPI.getOauthPageUrl(Config.SER_URL+"/distribution/mer/code", OauthScope.SNSAPI_BASE, ""));
         store.setType(MenuType.VIEW);
         MenuButton family=new MenuButton();
         family.setName("我的家族");
-        family.setUrl("http://c7f94223.ngrok.io/distribution/user/initUser");
+        family.setUrl( oauthAPI.getOauthPageUrl(Config.SER_URL+"/distribution/user/code", OauthScope.SNSAPI_BASE, ""));
         family.setType(MenuType.VIEW);
         MenuButton QrCard=new MenuButton();
         QrCard.setName("二维码");
-        QrCard.setUrl("http://c7f94223.ngrok.io/distribution/card/init");
+        QrCard.setUrl( oauthAPI.getOauthPageUrl(Config.SER_URL + "/distribution/card/code", OauthScope.SNSAPI_BASE, ""));
         QrCard.setType(MenuType.VIEW);
         button.add(store);
         button.add(family);

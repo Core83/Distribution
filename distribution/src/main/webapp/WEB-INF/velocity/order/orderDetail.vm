@@ -1,0 +1,149 @@
+#parse("/sys/sys_param.vm")
+<!DOCTYPE html>
+<html lang="zh-cn">
+    #parse("/mer/head.vm")
+<body>
+<div class="container us-container ">
+    <header>
+        <div class="us-nav" >
+            <div class="col-xs-2  box-round">
+                <a   href="$!{CONTEXT_PATH}/order/init?openId=$!{openId}">
+                    <span class="fa fa-arrow-left  us-nav-pf" ></span>
+                </a>
+            </div>
+            <div class="col-xs-8">
+                <h4 class="text-center ">订单详情</h4>
+            </div>
+        </div>
+    </header>
+    <section class="confirm-list">
+        <div class="address_defalut" >
+            <h3>
+                送至
+            </h3>
+            <ul>
+                <li>
+                    $!cache.getCachedName("PROVINCE", "$!{Address.province}", "0")$!cache.getCachedName("CITY", "$!{Address.city}", "$!{Address.province}")$!{Address.address}
+                    &nbsp;
+                </li>
+                <li>
+                    <strong>
+                        $!{Address.receiver}&nbsp;
+                    </strong>
+                    $!{Address.mobilePhone}&nbsp;
+                </li>
+            </ul>
+        </div>
+        <div class="order_info">
+            <h3>
+                订单信息
+            </h3>
+            <ul class="productList">
+                <li class="hproduct noclick">
+                    <img class="photo" src="${RESOURCE_PATH}/images/$!cache.getCachedName("MER_PIC", "$!{order.gdsId}", "")"
+                         alt="">
+                    <p class="fn">
+                        $!cache.getCachedName("MER_NAME", "$!{order.gdsId}", "")
+                    </p>
+                    <p class="sku">
+                        <em>
+                            编号：
+                        </em>
+		                <span>
+                            $!{order.gdsId}
+		                </span>
+                    </p>
+                    <p class="sku">
+                        <em>
+                            价格：
+                        </em>
+		                <span class="price">
+		                    ￥$!number.format("#0.00",$math.div($math.div(${order.gdsAmount},"100"),$!{order.gdsCount}))
+		                </span>
+                    </p>
+                    <div class="sku sku_num">
+                        <em>
+                            数量：
+                        </em>
+		                <span>
+                            ${order.gdsCount}
+		                </span>
+                    </div>
+                </li>
+            </ul>
+            <ul class="order_info_list">
+                <li class="oil-shipping">
+                    <strong>
+                        配送方式
+                    </strong>
+		            <span>
+		                   包邮
+		            </span>
+                </li>
+                <li class="oil-pay">
+                    <strong>
+                        支付方式
+                    </strong>
+		            <span>
+		                微信支付
+		            </span>
+                </li>
+                <li class="oil-state">
+                    <strong>
+                        订单状态
+                    </strong>
+		            <span class="red">
+                        #if(${order.status}==1)
+                         下单
+                         #elseif(${order.status}==2)
+                            准备发货
+                        #end
+		            </span>
+                </li>
+                <li class="oil-date">
+                    <strong>
+                        下单时间
+                    </strong>
+		            <span>
+                        $!date.format('yyyy-MM-dd HH:mm:ss',$!{order.createTime})
+		            </span>
+                </li>
+                <li class="oil-price">
+                    <strong>
+                        总价
+                    </strong>
+		            <span class="red">
+		                ￥$!number.format("#0.00",$math.div(${order.gdsAmount},"100"))
+		            </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-bottom">
+            <div class="col-xs-3 ">
+                <a href="$!{CONTEXT_PATH}/mer/init?openId=$!{openId}">
+                    <i class="fa fa-home"></i>
+                    <p>立即购买</p>
+                </a>
+            </div>
+            <div class="col-xs-3 current">
+                <a href="$!{CONTEXT_PATH}/order/init?openId=$!{openId}" >
+                    <i class="fa fa-file"></i>
+                    <p>我的订单</p>
+                </a>
+            </div>
+            <div class="col-xs-3">
+                <a href="$!{CONTEXT_PATH}/user/initUser?openId=$!{openId}" >
+                    <i class="fa fa-group"></i>
+                    <p>家族成就</p>
+                </a>
+            </div>
+            <div class="col-xs-3 ">
+                <a href="$!{CONTEXT_PATH}/card/init?openId=$!{openId}">
+                    <i class="fa fa-qrcode"></i>
+                    <p>我的二维码</p>
+                </a>
+            </div>
+        </div>
+</body>
+</html>

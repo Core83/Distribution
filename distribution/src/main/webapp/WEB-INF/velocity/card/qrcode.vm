@@ -1,0 +1,61 @@
+#parse("/sys/sys_param.vm")
+<!DOCTYPE html>
+<html lang="zh-cn">
+    #parse("/mer/head.vm")
+<body>
+<header>
+    <div class="us-nav" >
+        <div class="col-xs-2  box-round">
+            <a href="orderForm-filling.html">
+                <span class="fa fa-arrow-left  us-nav-pf" ></span>
+            </a>
+        </div>
+        <div class="col-xs-8">
+            <h4 class="text-center ">我的二维码</h4>
+        </div>
+    </div>
+</header>
+<div class="container qrcode">
+    <div class="top">
+        #if(!${qrCode})
+            <label>提示：</label>
+            <p>您还不是东家，生成的是本公众号二维码。请点击下方立即购买按钮成为东家，生成个人专属推二维码。</p>
+            <img src="${RESOURCE_PATH}/images/qrcode.jpg" alt="二维码" />
+        #else
+            <img src="${qrCode}" alt="二维码" />
+        #end
+
+        <span>长按识别图中二维码</span>
+    </div>
+    <div class="btnbox">
+        <a href="$!{CONTEXT_PATH}/mer/init?openId=$!{openId}"><button type="button" class="btn btn-success" onclick="">立即购买</button></a>
+    </div>
+</div>
+<div class="nav-bottom">
+    <div class="col-xs-3 ">
+        <a href="$!{CONTEXT_PATH}/mer/init?openId=$!{openId}">
+            <i class="fa fa-home"></i>
+            <p>立即购买</p>
+        </a>
+    </div>
+    <div class="col-xs-3 ">
+        <a href="$!{CONTEXT_PATH}/order/init?openId=$!{openId}" >
+            <i class="fa fa-file"></i>
+            <p>我的订单</p>
+        </a>
+    </div>
+    <div class="col-xs-3">
+        <a href="$!{CONTEXT_PATH}/user/initUser?openId=$!{openId}" >
+            <i class="fa fa-group"></i>
+            <p>家族成就</p>
+        </a>
+    </div>
+    <div class="col-xs-3 current">
+        <a href="$!{CONTEXT_PATH}/card/init?openId=$!{openId}">
+            <i class="fa fa-qrcode"></i>
+            <p>我的二维码</p>
+        </a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.core.WeChat;
 
 public class Config {
+    public static final String SESSION_FRAME = "SYS_USER";
 	//微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。 
 	public static final String SIGNATURE = "signature";
 	//时间戳 
@@ -15,7 +16,18 @@ public class Config {
 	public static final String GRANT_TYPE_CODE="authorization_code";	
 	//消息体签名
 	public static final String MSG_SIGNATURE="msg_signature";
-	
+
+    //
+    public static final String TOKEN = "5fsgSxen8fsdp5uNEMm3";
+    public static final String APPID = "wxaec7de22b7b9dd81";
+    public static final String AppSecret="68167a66af466886202560942677ab7d";
+    public static final String AESKey = "moRVtoOLenldTkDkKfYxBbfejDrwSqAeEsaYHOJLbVO";
+    public static final String MCHID="1285414101";
+    public static final String APPNAME="品尚会";
+    public static final String SER_URL="http://095398.ichengyun.net";
+    public static final String SER_URLS="http://69a441a0.ngrok.io";
+    public static final String keyStoreFilePath="D:\\apache-tomcat-7.0.55-windows-x64\\apache-tomcat-7.0.55\\webapps\\distribution\\statics\\cert\\apiclient_cert.p12";
+	public static final String singKey="128541410112854141011285414101sf";
 	
 	// 获取access token URL
 	public static final String URL_ACCESSTOKEN = "https://api.weixin.qq.com/cgi-bin/token";
@@ -69,7 +81,7 @@ public class Config {
 	public static final String LANG_EN = "zh_CN";
 	
 	//关注提示信息
-	public static final String PROM_CONTENT = "感谢关注车小虎道路救援系统";
+	public static final String PROM_CONTENT = "感谢关注";
 	
 	//图片上传成功提示
 	public static final String PROM_UPLOAD_SUCCESS = "您上传的图片已收到";

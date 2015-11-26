@@ -1,0 +1,23 @@
+<head>
+    <title>米其林轮胎 PRIMACY LC</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="团购详情">
+    <meta name="author" content="米其林轮胎 PRIMACY LC">
+    <link rel="stylesheet" href="$!{RESOURCE_PATH}/css/app-v1.css">
+    <link rel="stylesheet" href="$!{RESOURCE_PATH}/css/wx/wx.css">
+    <link rel="stylesheet" href="$!{RESOURCE_PATH}/js/owl-carousel/owl.carousel.css">
+    <script src="$!{RESOURCE_PATH}/js/app.v1.js"></script>
+    <script src="$!{RESOURCE_PATH}/js/app.plugin.js"></script>
+    <script src="$!{RESOURCE_PATH}/js/owl-carousel/owl.carousel.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            //焦点图
+            $("#carousel-silde").owlCarousel({
+                items: 1,
+                autoPlay: true
+            });
+        });
+    </script>
+</head>

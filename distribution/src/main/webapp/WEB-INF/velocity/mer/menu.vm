@@ -1,0 +1,38 @@
+<div class="nav-bottom">
+    <div class="col-xs-3 current">
+        <a href="javascript:void(0)" onclick="go(this,'$!{CONTEXT_PATH}/mer/init?openId=$!{openId}')">
+            <i class="fa fa-home"></i>
+            <p>立即购买</p>
+        </a>
+    </div>
+    <div class="col-xs-3">
+        <a href="$!{CONTEXT_PATH}/order/init?openId=$!{openId}" >
+            <i class="fa fa-file"></i>
+            <p>我的订单</p>
+        </a>
+    </div>
+    <div class="col-xs-3">
+        <a href="$!{CONTEXT_PATH}/user/initUser?openId=$!{openId}" >
+            <i class="fa fa-group"></i>
+            <p>家族成就</p>
+        </a>
+    </div>
+    <div class="col-xs-3">
+        <a href="$!{CONTEXT_PATH}/card/init?openId=$!{openId}">
+            <i class="fa fa-qrcode"></i>
+            <p>我的二维码</p>
+        </a>
+    </div>
+</div>
+<script type="application/javascript">
+    function go(thiss,url){
+        goMain(url);
+        $(thiss).parent().parent().find("div").each(function(){
+            $(this).removeClass("current");
+        });
+        $(thiss).parent().addClass("current");
+    }
+    function goMain (path) {
+        $("#main").load(path);
+    }
+</script>
