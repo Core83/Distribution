@@ -27,7 +27,7 @@
                     <div class="gd-title">
                         <dl>
                             <dt class="phone-name">
-                                ${mer.gdsTitle}
+                                $!{mer.gdsTitle}
                             </dt>
                             <dd>
                                 价格：<span  class="price">￥<strong>$!number.format("#0.00",$math.div(${mer.gdsPrice},"100"))</strong></span>

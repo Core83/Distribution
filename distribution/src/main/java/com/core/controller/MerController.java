@@ -1,6 +1,7 @@
 package com.core.controller;
 
 import com.core.WeChat.Config;
+import com.core.util.CachedDict;
 import com.core.util.HttpClientUtil;
 import com.core.util.SequenceUtil;
 import com.core.model.*;
@@ -52,6 +53,8 @@ public class MerController {
     private IWxOrderAddressService addressService;
     @Autowired
     private IViewCacheService viewCacheService;
+    @Autowired
+    private IWxUserExtService extService;
     private ApiConfig config=new ApiConfig(Config.APPID,Config.AppSecret,true);
     public static final Log log = LogFactory.getLog(MerController.class);
     @RequestMapping("/init")
@@ -146,8 +149,8 @@ public class MerController {
         unifiedorder.setAppid(Config.APPID);
         unifiedorder.setMch_id(Config.MCHID);
         unifiedorder.setNonce_str(PayUtil.getNonceStr());
-        unifiedorder.setBody("PRIMACY LC");
-        unifiedorder.setOut_trade_no(orderId+"");
+        unifiedorder.setBody(CachedDict.getCachedName("MER_NAME",String.valueOf(orderInfo.getGdsId()),""));
+        unifiedorder.setOut_trade_no(orderId + "");
         unifiedorder.setTotal_fee(orderInfo.getGdsAmount().toString());
         unifiedorder.setSpbill_create_ip(InetAddress.getLocalHost().getHostAddress());
         unifiedorder.setNotify_url(Config.SER_URL+"/distribution/order/notify");
@@ -162,6 +165,9 @@ public class MerController {
         log.info("========return_code:" + result.getReturn_code() + "return_msg:"+result.getReturn_msg()+"==prepay_id:"+ result.getPrepay_id() + "======");
         String prepay_id = result.getPrepay_id();
         String package_ = "prepay_id=" + prepay_id;
+        WxUserExt ext=new WxUserExt(orderInfo.getUserId(),String.valueOf(orderInfo.getOrderId()),"0");
+        ext.setExtValue(package_);
+        extService.insert(ext);
         PayJsRequest payJsRequest = new PayJsRequest();
         payJsRequest.setAppId(Config.APPID);
         String nonceStr = PayUtil.getNonceStr();

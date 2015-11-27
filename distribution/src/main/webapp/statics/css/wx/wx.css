@@ -1804,10 +1804,7 @@ body.group{
 	border-top:1px solid #ddd;
 	border-bottom:1px solid #ddd;
 }
-.qrcode{
-	background: #fff url(../../images/bb.jpg) no-repeat;
-	height: 80%;
-}
+
 .qrcode .top{
 	background-color: rgba(220, 220, 220, 0.39);
     margin-top: 20px;

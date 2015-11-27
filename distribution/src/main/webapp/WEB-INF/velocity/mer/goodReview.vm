@@ -1,4 +1,7 @@
 #parse("/sys/sys_param.vm")
+<link rel="stylesheet" href="$!{RESOURCE_PATH}/jQuery-Validation-Engine-master/css/validationEngine.jquery.css" type="text/css"/>
+<script src="$!{RESOURCE_PATH}/jQuery-Validation-Engine-master/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="$!{RESOURCE_PATH}/jQuery-Validation-Engine-master/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 <header>
     <div class="us-nav">
         <div class="col-xs-2  box-round">
@@ -18,14 +21,14 @@
         <input type="hidden" name="orderId" value="$!{orderInfo.orderId}">
         <input type="hidden" name="openId" value="$!{openId}">
         <input type="hidden" name="gdsTitle"  $!cache.getCachedName("MER_NAME", "$!{orderInfo.gdsId}", "")>
-        <input type="text" class="form-control" placeholder="姓名（必填）" id="receiveName" value="" name="receiver" notnull="true">
-        <input type="text" class="form-control" placeholder="手机号码（必填）" id="phone" name="mobilePhone" value="" notnull="true">
+        <input type="text" class="form-control validate[required]" placeholder="姓名（必填）" id="receiveName" value="" name="receiver" >
+        <input type="text" class="form-control validate[custom[phone]]" placeholder="手机号码（必填）" id="phone" name="mobilePhone" value="" >
         <select class="form-control" id="provinceCodeSend" dict="PROVINCE" name="province" linkSelect="cityCodeSend" url="$!{CONTEXT_PATH}/cache/area" notnull="true">
         </select>
         <select class="form-control" id="cityCodeSend" name="city" dict="CITY" nullText="全部" url="$!{CONTEXT_PATH}/cache/area" notnull="true">
         </select>
-        <input type="text" class="form-control" placeholder="送货地址(市区以下详细地址)" name="address" value="" notnull="true">
-        <input type="text" class="form-control" placeholder="邮编" name="">
+        <input type="text" class="form-control validate[required]" placeholder="送货地址(市区以下详细地址)" name="address" value="" >
+        <input type="text" class="form-control validate[required]" placeholder="邮编" name="">
     </div>
     <div class="distribution">
         <h3>配送方式</h3>
@@ -93,7 +96,9 @@
 
         });
         if(ret){
+            $(".btn").attr("disabled",true);
             $("#addressForm").submit();
+
         }
     }
     function goMain (formId,path) {
