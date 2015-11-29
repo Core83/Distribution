@@ -1,0 +1,24 @@
+<h5>我的分銷：超級粉絲</h5>
+<div class="userList">
+    <table class="table table-striped m-b-none">
+        <thead>
+        <tr class="success">
+            <th>昵称</th>
+            <th>ID</th>
+            <th>等级</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        </tr>
+        #foreach($user in $list)
+        <tr>
+            <td>${user.nickname}</td>
+            <td>${user.userId}</td>
+            <td>$!cache.getCachedName("LEVEL", "${user.userId}", "")</td>
+        </tr>
+      #end
+
+        </tbody>
+    </table>
+</div>
