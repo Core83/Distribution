@@ -22,12 +22,12 @@
         <input type="hidden" name="openId" value="$!{openId}">
         <input type="hidden" name="gdsTitle"  $!cache.getCachedName("MER_NAME", "$!{orderInfo.gdsId}", "")>
         <input type="text" class="form-control validate[required]" placeholder="姓名（必填）" id="receiveName" value="" name="receiver" >
-        <input type="text" class="form-control validate[custom[phone]]" placeholder="手机号码（必填）" id="phone" name="mobilePhone" value="" >
+        <input type="text" class="form-control validate[required,custom[phone]]" placeholder="手机号码（必填）" id="phone" name="mobilePhone" value="" >
         <select class="form-control" id="provinceCodeSend" dict="PROVINCE" name="province" linkSelect="cityCodeSend" url="$!{CONTEXT_PATH}/cache/area" notnull="true">
         </select>
-        <select class="form-control" id="cityCodeSend" name="city" dict="CITY" nullText="全部" url="$!{CONTEXT_PATH}/cache/area" notnull="true">
+        <select class="form-control" id="cityCodeSend" name="city" dict="CITY" nullText="市" url="$!{CONTEXT_PATH}/cache/area" notnull="true">
         </select>
-        <input type="text" class="form-control validate[required]" placeholder="送货地址(市区以下详细地址)" name="address" value="" >
+        <textarea class="form-control validate[required]" placeholder="送货地址(市区以下详细地址)" name="address"  ></textarea>
         <input type="text" class="form-control validate[required]" placeholder="邮编" name="">
     </div>
     <div class="distribution">
@@ -78,8 +78,8 @@
 <script type="text/javascript" src="$!{RESOURCE_PATH}/js/jquery.select.js"></script>
 <script type="application/javascript">
     $(function(){
-        $("#provinceCodeSend").selectBDX({dict:'PROVINCE', nullText:'全部', linkSelect:'cityCode', url:'$!{CONTEXT_PATH}/cache/area'});
-        $("#cityCodeSend").selectBDX({dict:'CITY', nullText:'全部', parentValue:'brysj', url:'$!{CONTEXT_PATH}/cache/area'});
+        $("#provinceCodeSend").selectBDX({dict:'PROVINCE', nullText:'省', linkSelect:'cityCode', url:'$!{CONTEXT_PATH}/cache/area'});
+        $("#cityCodeSend").selectBDX({dict:'CITY', nullText:'市', parentValue:'brysj', url:'$!{CONTEXT_PATH}/cache/area'});
     });
     function submit(url) {
         var ret = true;
@@ -95,6 +95,7 @@
             }
 
         });
+        if(!$('#addressForm').validationEngine("validate")) return;
         if(ret){
             $(".btn").attr("disabled",true);
             $("#addressForm").submit();

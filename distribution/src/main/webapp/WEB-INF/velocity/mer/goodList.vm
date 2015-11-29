@@ -19,10 +19,10 @@
 #foreach($merInfo in $mers)
         <div class="col-xs-12">
             <div class="list-good">
-                <a  href="$!{CONTEXT_PATH}/mer/detail?gdsId=${merInfo.gdsId}&openId=${openId}"><img src="$!{RESOURCE_PATH}/images/${merInfo.picUrl}" /></a>
+                <a  href="$!{CONTEXT_PATH}/mer/detail?gdsId=$!{merInfo.gdsId}&openId=$!{openId}"><img src="$!{RESOURCE_PATH}/images/${merInfo.picUrl}" /></a>
                 <dl>
                     <dt class="good-name">
-                        <a  href="$!{CONTEXT_PATH}/mer/detail?gdsId=${merInfo.gdsId}&openId=${openId}">
+                        <a  href="$!{CONTEXT_PATH}/mer/detail?gdsId=$!{merInfo.gdsId}&openId=$!{openId}">
                             ${merInfo.gdsTitle}
                         </a>
                     </dt>
@@ -30,7 +30,7 @@
                         ￥<strong>$!number.format("#0.00",$math.div(${merInfo.gdsPrice},"100"))</strong>
                     </dd>
                     <dd>
-                        <a href="$!{CONTEXT_PATH}/mer/detail?gdsId=${merInfo.gdsId}&openId=${openId}" class="btn btn-orange btn-block ">
+                        <a href="$!{CONTEXT_PATH}/mer/detail?gdsId=$!{merInfo.gdsId}&openId=$!{openId}" class="btn btn-orange btn-block ">
                             立即购买
                         </a>
                     </dd>

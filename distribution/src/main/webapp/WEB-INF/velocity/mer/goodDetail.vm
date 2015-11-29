@@ -10,7 +10,7 @@
                         <a href="javascript:void(0)"><span class="fa fa-arrow-left  us-nav-pf"></span></a>
                     </div>
                     <div class="col-xs-8">
-                        <h4 class="text-center">${mer.gdsTitle}</h4>
+                        <h4 class="text-center">$!{mer.gdsTitle}</h4>
                     </div>
                     <div class="col-xs-2 text-right box-round">
                     </div>
@@ -41,14 +41,14 @@
                             <input type="checkbox" id="first" name="gdsCount" value="1"/> 数量：1
                         </a>
                         <a href="javascript:void(0)" class="list-group-item">
-                            <input type="checkbox" id="second" name="gdsCount" value="2" #if($!{level}=="-1")
+                            <input type="checkbox" id="second" name="gdsCount" value="2"
                                 disabled
-                            #end /> 数量：2
+                             /> 数量：2
                         </a>
                         <a href="javascript:void(0)" class="list-group-item">
-                            <input type="checkbox" id="third" name="gdsCount" value="3" #if($!{level}=="-1"||$!{level}=="1")
+                            <input type="checkbox" id="third" name="gdsCount" value="3"
                                    disabled
-                            #end/> 数量：3
+                            /> 数量：3
                         </a>
                     </div>
                 </div>
@@ -59,9 +59,9 @@
 		                        ￥0.00
 	                        </dd>
                             <input type="hidden" name="gdsAmount" >
-                            <input type="hidden" name="gdsPrice" value="${mer.gdsPrice}">
-                            <input type="hidden" name="openId" value="${openId}">
-                            <input type="hidden" name="gdsId" value="${mer.gdsId}">
+                            <input type="hidden" name="gdsPrice" value="$!{mer.gdsPrice}">
+                            <input type="hidden" name="openId" value="$!{openId}">
+                            <input type="hidden" name="gdsId" value="$!{mer.gdsId}">
                         </dl>
                     </div>
                 </form>
@@ -77,7 +77,6 @@
     </body>
 <SCRIPT TYPE="text/javascript">
     $("input[name='gdsCount']").click(function(){
-        var level=$!{level};
         var moneys=0.00;
         var money=$!number.format("#0.00",$math.div(${mer.gdsPrice},"100")) ;
         $("input[name='gdsCount']").each(function (){
@@ -85,7 +84,7 @@
                 moneys=$(this).val()*money+moneys;
             };
         });
-        if(level=="-1"){
+
             if($(this).prop("checked")){
                 $(this).parent().next().find("input").first().removeAttr("disabled");
                 $(this).parent().prev().find("input").first().attr("disabled",true);
@@ -94,24 +93,8 @@
                 $(this).parent().next().find("input").first().attr("disabled",true);
                 $(this).parent().prev().find("input").removeAttr("disabled");
             }
-        }else if(level=="1"){
-            if($(this).prop("checked")){
-                $(this).parent().next().find("input").first().removeAttr("disabled");
-                $(this).parent().prev().find("input").first().attr("disabled",true);
-            }else{
-                if($(this).attr("id")=="second"){
-                    $(this).parent().next().find("input").first().attr("disabled",true);
-                }
-                $(this).parent().prev().find("input").removeAttr("disabled");
-            }
-        }else{
-            if($(this).prop("checked")){
-                $(this).parent().prev().find("input").first().attr("disabled",true);
-            }else{
 
-                $(this).parent().prev().find("input").removeAttr("disabled");
-            }
-        }
+
         $("input[name='gdsAmount']").val(moneys*100);
         $("#gdsAmountShow").html("¥"+moneys.toFixed(2));
         $("#button").html("¥"+moneys.toFixed(2)+"立即购买");
