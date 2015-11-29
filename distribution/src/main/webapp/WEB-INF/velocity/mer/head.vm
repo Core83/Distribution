@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="团购详情">
     <meta name="author" content="米其林轮胎 PRIMACY LC">
+    <script src="$!{RESOURCE_PATH}/js/excanvas.js"></script>
     <link rel="stylesheet" href="$!{RESOURCE_PATH}/css/app-v1.css">
     <link rel="stylesheet" href="$!{RESOURCE_PATH}/css/wx/wx.css">
+    <link rel="stylesheet" href="$!{RESOURCE_PATH}/fonts/iconfont.css">
     <link rel="stylesheet" href="$!{RESOURCE_PATH}/js/owl-carousel/owl.carousel.css">
+    <script src="$!{RESOURCE_PATH}/js/jquery-1.8.3.min.js"></script>
     <script src="$!{RESOURCE_PATH}/js/app.v1.js"></script>
     <script src="$!{RESOURCE_PATH}/js/app.plugin.js"></script>
     <script src="$!{RESOURCE_PATH}/js/owl-carousel/owl.carousel.js"></script>
