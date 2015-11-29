@@ -1,6 +1,6 @@
 <div class="nav-bottom">
     <div class="col-xs-3 current">
-        <a href="javascript:void(0)" onclick="go(this,'$!{CONTEXT_PATH}/mer/init?openId=$!{openId}')">
+        <a href="$!{CONTEXT_PATH}/mer/init?openId=$!{openId}" >
             <i class="fa fa-home"></i>
             <p>立即购买</p>
         </a>

@@ -7,13 +7,17 @@ import com.core.model.WxUserInfo;
 import com.core.service.IUserService;
 import com.core.service.IWxOrderAddressService;
 import com.core.service.IWxUserInfoService;
+import com.core.util.CachedDict;
 import com.core.util.HttpClientUtil;
 import com.iboot.weixin.api.BaseAPI;
 import com.iboot.weixin.api.OauthAPI;
+import com.iboot.weixin.api.QrcodeAPI;
 import com.iboot.weixin.api.config.ApiConfig;
 import com.iboot.weixin.api.enums.OauthScope;
+import com.iboot.weixin.api.enums.QrcodeType;
 import com.iboot.weixin.api.response.BaseResponse;
 import com.iboot.weixin.api.response.OauthGetTokenResponse;
+import com.iboot.weixin.api.response.QrcodeResponse;
 import com.iboot.weixin.client.LocalHttpClient;
 import com.iboot.weixin.util.NetWorkCenter;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -51,16 +57,9 @@ public class UserController {
     public String showUser(Model model,HttpServletRequest request)  {
 
         try {
-            WxOrderAddress address=new WxOrderAddress();
-            String a= new String("滨江区".getBytes("UTF-8"));
-            address.setAddress(a);
-            address.setOrderId(Long.valueOf("12334543"));
-            address.setUserId(1);
-            address.setReceiver("张三");
-            addressService.Insert(address);
-            String name=request.getParameter("name");
-            String pwd=request.getParameter("pwd");
-            model.addAttribute("user", userService.getUser(name, pwd));
+            QrcodeAPI qrcodeAPI=new QrcodeAPI(config);
+            QrcodeResponse response=qrcodeAPI.createQrcode(QrcodeType.QR_LIMIT_SCENE,"100000",0);
+            model.addAttribute("result",response.getTicket());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -71,19 +70,26 @@ public class UserController {
         String openId=request.getParameter("openId");
         WxUserInfo user= userInfoService.getUserIdByOpenId(openId);
         int conut=userInfoService.countFamily(user);
+        String level= CachedDict.getCachedName("LEVEL",String.valueOf(user.getUserId()),"");
         model.addAttribute("user",user);
-        if (conut>0){
+        if (conut>0||level!=null){
             model.addAttribute("family","是");
         }else{
             model.addAttribute("family","否(<a href=\"/distribution/mer/init\" >点击成为族长</a>)");
         }
         if (user.getParentid()==null||userInfoService.getUserById(user.getParentid())==null){
-            model.addAttribute("parent","品尚会");
+            model.addAttribute("parent","乐享微赢");
         }else{
             model.addAttribute("parent",userInfoService.getUserById(user.getParentid()).getNickname());
         }
         model.addAttribute("firstFans",conut);
-        model.addAttribute("senFans",userInfoService.countSenFans(user));
+        int sonCount=userInfoService.countSenFans(user);
+        int thirdCount=0;
+        model.addAttribute("senFans",sonCount);
+        if (sonCount!=0){
+            thirdCount=userInfoService.countThirdFans(user);
+        }
+        model.addAttribute("thirdCount",thirdCount);
         model.addAttribute("openId",openId);
         return "user/userInit";
     }
@@ -105,4 +111,23 @@ public class UserController {
         }
         return "/404";
     }
+    @RequestMapping("/user/list")
+    public String getUserList(HttpServletRequest request,Model model){
+        Integer userId=Integer.valueOf(request.getParameter("userId"));
+        String type=request.getParameter("type");
+        Integer page=Integer.valueOf(request.getParameter("page"));
+        Integer start=(page-1)*5;
+        List<WxUserInfo> userInfoList=new ArrayList<>();
+        if ("one".equals(type)){
+            userInfoList= userInfoService.getFirstList(userId, start);
+
+        }else if("second".equals(type)){
+            userInfoList=userInfoService.getSecondList(userId,start);
+        }else if("third".equals(type)){
+            userInfoList=userInfoService.getThirdList(userId,start);
+        }
+        model.addAttribute("list",userInfoList);
+        return "/user/fansDetail";
+    }
+
 }

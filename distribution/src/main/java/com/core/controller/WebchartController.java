@@ -9,6 +9,9 @@ import com.iboot.weixin.handle.EventHandle;
 import com.iboot.weixin.handle.MessageHandle;
 import com.iboot.weixin.message.BaseMsg;
 import com.iboot.weixin.message.TextMsg;
+import com.iboot.weixin.message.aes.AesException;
+import com.iboot.weixin.message.aes.WXBizMsgCrypt;
+import com.iboot.weixin.message.req.BaseEvent;
 import com.iboot.weixin.message.req.TextReqMsg;
 import com.iboot.weixin.servlet.WeixinControllerSupport;
 import org.slf4j.Logger;
@@ -104,13 +107,14 @@ public class WebchartController extends WeixinControllerSupport {
     }
 
 
-    public static void main(String[] args) {
-//        WXBizMsgCrypt pc = new WXBizMsgCrypt(Config.TOKEN, Config.AESKey, Config.APPID);
-//        String message = pc.decryptMsg("7da55c334e6b5a51180c92ddf416e78417b61af4", "1448162519", "844826633", "<xml>\n" +
-//                "    <ToUserName><![CDATA[gh_0ef31c6e6d1f]]></ToUserName>\n" +
-//                "    <Encrypt><![CDATA[0ksH+cLJTf61prVomjX96sJ+MdQpGlI9AJzfDGdR+1Sd7OU7Vn0F0D1FPjQp6m7KcwGDzS72oNxTj+mn07uc2lWXgjKpmd4j/ZOEk20Ra2YTVAHJXyQNCsQX1Vd+Fijf1XvJnA5xeRxVVUcsz2UvQ59Uc4XD0Fh7kPVN6FTR3Fb91gfhSE/9gJrXBrt+UAcCUOs8Tn6wcQi35VQz2I5iC80XnZ70N6HSbs6hw1j/fJEcyhWSPrKYy1djGxuxJXmrjll3L/Vk7hwQRskihp56Ajdb2OiYXjn/cEnc8pZ4HowPr2n402Gtolp/defVNe2Lo7drIkvkYseV5Kbo7ms26R2lNygpN+mp6Tu+BYg4TvJbI/VNaoZ9HdCZJI+6lUcpK0Zum5OzZ5ieNtFdp7STnwIC2Qb5wZX27TRHzzW3r1Q=]]></Encrypt>\n" +
-//                "</xml>\n");
-//        System.out.println(message);
+    public static void main(String[] args) throws AesException {
+        WXBizMsgCrypt pc = new WXBizMsgCrypt(Config.TOKEN, Config.AESKey, Config.APPID);
+        String message = pc.decryptMsg("d35e0a920860b718544690d13872eb1111a9c0a3", "1448644223", "405130753", "<xml>\n" +
+                "    <ToUserName><![CDATA[gh_0ef31c6e6d1f]]></ToUserName>\n" +
+                "    <Encrypt><![CDATA[dg2SKeAFoqhdthtXrXwJSH8RxgVYg85sd2q1z30ari8/P7+WxhxreuK/BdOQ+hUnf0cG+eMoOovajY4gAhIuMvSufzC/5ZkWFZXnb5ozMtT+9+8v/PwqJMkiVIL6+BsOnDpVQKTl8YMqpiyIYEW8Y6O9rpz/Qi+8hanq4Zrw4AYRw1KYhDT64PmzQsjgJYG17nI5eEN4VhyVJpfbStcst9YFyB30Yr6uJD28Fd4ij4QHlNhmixcT3tzuBdW6Awd6GOIdHR4RRPdjCSQ6+x7r825Id7dqFho2apa+X6yPJnIso6EIzMjUI3/s7k2A4IX4LbmwGOxzdpzHuPXYmqhahwLds753vvocximc5I3W0rq55qUvlQ5ulLyGLT9mqFzju6FxdOhDAUyxZPamYNFbN91Fh5G4ZZhnQgjnFYm8sBU=]]></Encrypt>\n" +
+                "</xml>");
+        System.out.println(message);
+        System.out.println(BaseEvent.class);
 
     }
 }

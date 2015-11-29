@@ -105,7 +105,7 @@
             <!--&lt;!&ndash; <property name="suffixSupport" value="false" />-->
             <!--<generatedKey column="ORDER_ID" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" /> &ndash;&gt;-->
         <!--</table>-->
-        <table tableName="wx_user_ext" schema="distribution" >
+        <table tableName="wx_pay_info" schema="distribution" >
             <property name="ignoreQualifiersAtRuntime" value="true" />
             <!-- <property name="suffixSupport" value="false" />
             <generatedKey column="ORDER_ID" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" /> -->

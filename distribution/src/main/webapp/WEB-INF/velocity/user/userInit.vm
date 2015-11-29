@@ -4,64 +4,64 @@
     #parse("/mer/head.vm")
 <body class="group">
 <div class="container us-container " id="main">
-
-    <div class="top col-xs-12">
-        <div class="col-xs-4">
-            <img src="$!{RESOURCE_PATH}/images/wx-car.png" alt="head" />
+    <div class="top">
+        <div>
+            <img src="$!{user.headimgurl}" alt="head" style=" width: 80px;" />
+            <p class="name">$!{user.nickname}<span>1</span></p>
+            <p class="num"><span></span>$!{user.userId}</p>
         </div>
-        <div class="col-xs-8">
-            <table>
-                <tr>
-                    <td>昵称：</td>
-                    <td>$!{user.nickname}</td>
-                </tr>
-                <tr>
-                    <td>族长：</td>
-                    <td>$!{family}</td>
-                </tr>
-                <tr>
-                    <td>关注时间：</td>
-                    <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{user.createTime})</td>
-                </tr>
-                <tr>
-                    <td>会员ID：</td>
-                    <td>$!{user.userId}</td>
-                </tr>
-            </table>
+        <div class="panel panel-default userinfo">
+            <div class="panel-heading">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#top" href="#collapseTop">
+                    <i class="iconfont icon-arrowdown"></i>
+                </a>
+            </div>
+            <div id="collapseTop" class="panel-collapse collapse fans">
+                <div class="panel-body">
+                    <h4>您是由【<span>$!{parent}</span>】推荐</h4>
+                    <table>
+                        <tr>
+                            <td>昵称：</td>
+                            <td>$!{user.nickname}</td>
+                        </tr>
+                        <tr>
+                            <td>族长：</td>
+                            <td>$!{family}</td>
+                        </tr>
+                        <tr>
+                            <td>关注时间：</td>
+                            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{user.createtime})</td>
+                        </tr>
+                        <tr>
+                            <td>会员ID：</td>
+                            <td>$!{user.userId}</td>
+                        </tr>
+                        <tr>
+                            <td>您的头衔：</td>
+                            <td>0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="content">
-        <h5>您是由【<span>$!{parent}</span>】推荐</h5>
-##        <div class="panel panel-default qrcode">
-##            <div class="panel-heading">
-##                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-##                    上传我的微信二维码
-##                    <i class="fa fa-caret-left right"></i>
-##                </a>
-##            </div>
-##            <div id="collapseOne" class="panel-collapse collapse">
-##                <div class="panel-body">
-##                    <input type="file" />
-##                    <button class="btn btn-danger">
-##                        <i class="fa fa-upload"></i>
-##                        上传
-##                    </button>
-##                </div>
-##            </div>
-##        </div>
+    <div class="content" id="userContent">
         <div class="panel panel-default qrcode">
             <div class="panel-heading">
                 <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                    <img src="$!{RESOURCE_PATH}/images/fri.png">
                     家族成员
+                    <span class="fansnum">$!math.add(${firstFans},$!math.add(${senFans},${thirdCount}))</span>
                     <i class="fa fa-caret-left right"></i>
                 </a>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse fans">
                 <div class="panel-body">
                     <div class="list-group">
-                        <a href="javascript:void(0)" class="list-group-item">我的超级粉丝<span class="right">${firstFans}人</span></a>
-                        <a href="javascript:void(0)" class="list-group-item">我的铁杆粉丝<span class="right">${senFans}人</span></a>
-                        <a href="javascript:void(0)" class="list-group-item">我的忠实粉丝<span class="right">0人</span></a>
+                        <a href="javascript:void(0)" class="list-group-item" #if(${firstFans}==0)
+                         onclick="goMain('$!{CONTEXT_PATH}/user/list?type=one&userId=$!{user.userId}',1,${firstFans})" #end>我的超级粉丝<span class="right">${firstFans}人</span></a>
+                        <a href="javascript:void(0)" class="list-group-item" #if(${senFans}!=0) onclick="goMain('$!{CONTEXT_PATH}/user/list?type=second&userId=$!{user.userId}',1,${senFans})" #end>我的铁杆粉丝<span class="right">${senFans}人</span></a>
+                        <a href="javascript:void(0)" class="list-group-item" #if(${thirdCount}!=0) onclick="goMain('$!{CONTEXT_PATH}/user/list?type=one&userId=$!{user.userId}',1,${thirdCount})" #end>我的忠实粉丝<span class="right">${thirdCount}人</span></a>
                     </div>
                 </div>
             </div>
@@ -69,39 +69,41 @@
         <div class="panel panel-default qrcode">
             <div class="panel-heading">
                 <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseThr">
+                    <img src="$!{RESOURCE_PATH}/images/rew.png">
                     我的佣金
+                    <span class="fansnum">${user.commission}</span>
                     <i class="fa fa-caret-left right"></i>
                 </a>
             </div>
             <div id="collapseThr" class="panel-collapse collapse fans">
                 <div class="panel-body">
                     <div class="list-group">
-                        <a href="javascript:void(0)" class="list-group-item">我的总佣金<span class="right">$!number.format("#0.00",$math.div(${user.commission},"100")) &nbsp;</span></a>
-##                        <a href="javascript:void(0)" class="list-group-item">已领取佣金<span class="right">0.00</span></a>
-##                        <a href="javascript:void(0)" class="list-group-item">未领取佣金<span class="right">0.00</span></a>
+                        <a href="javascript:void(0)" class="list-group-item">我的总佣金<span class="right">$!number.format("#0.00",$!math.div(${user.commission},"100")) &nbsp;</span></a>
+                    ##                        <a href="javascript:void(0)" class="list-group-item">已领取佣金<span class="right">0.00</span></a>
+                    ##                        <a href="javascript:void(0)" class="list-group-item">未领取佣金<span class="right">0.00</span></a>
                     </div>
                 </div>
             </div>
         </div>
-##        <div class="panel panel-default qrcode">
-##            <div class="panel-heading">
-##                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseFou">
-##                    红包专区
-##                    <i class="fa fa-caret-left right"></i>
-##                </a>
-##            </div>
-##            <div id="collapseFou" class="panel-collapse collapse fans">
-##                <div class="panel-body">
-##                    <div class="list-group">
-##                        <a href="groupDetail.html" class="list-group-item">发放超级粉丝红包</a>
-##                        <a href="groupDetail.html" class="list-group-item">发放铁杆粉丝红包</a>
-##                        <a href="groupDetail.html" class="list-group-item">发放忠实粉丝红包</a>
-##                    </div>
-##                </div>
-##            </div>
-##        </div>
+    ##        <div class="panel panel-default qrcode">
+    ##            <div class="panel-heading">
+    ##                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseFou">
+    ##                    红包专区
+    ##                    <i class="fa fa-caret-left right"></i>
+    ##                </a>
+    ##            </div>
+    ##            <div id="collapseFou" class="panel-collapse collapse fans">
+    ##                <div class="panel-body">
+    ##                    <div class="list-group">
+    ##                        <a href="groupDetail.html" class="list-group-item">发放超级粉丝红包</a>
+    ##                        <a href="groupDetail.html" class="list-group-item">发放铁杆粉丝红包</a>
+    ##                        <a href="groupDetail.html" class="list-group-item">发放忠实粉丝红包</a>
+    ##                    </div>
+    ##                </div>
+    ##            </div>
+    ##        </div>
 
-</div>
+    </div>
 </div>
 <div class="nav-bottom">
     <div class="col-xs-3 ">
@@ -141,8 +143,65 @@
                 $(this).children("i").removeClass("fa-caret-left").addClass("fa-caret-down");
             }
         });
+        $(".userinfo a.collapsed").click(function(){
+            var dis=$(this).parent().next().css("display");
+            if(dis=="block"){
+                $(this).children("i").removeClass("icon-arrowtop").addClass("icon-arrowdown");
+            }else{
+                $(this).children("i").removeClass("icon-arrowdown").addClass("icon-arrowtop");
+            }
+        });
     });
-    function goMain (path) {
-        $("#main").load(path);
+    function goMain (path,pageNo,Total) {
+        $("#userContent").load(path,{page: pageNo}, function(){
+            totalPage=Math.ceil(parseInt(Total) / parseInt(10));
+        });
     }
+
+##    var totalPage = 0,page=1;
+##    // 是否可以加载
+##    var flag = true;
+##    var loadDiv = document.getElementById('load');
+##    function loadData(pageNO){
+##        $("#userContent").load(path, {page: pageNO});
+##
+##    }
+##    $(window).on('scroll', function() {
+##        if(isLoadData()){
+##            // 已经是最后一页
+##            if(page >= totalPage&&totalPage!=0) {
+##                loadDiv.innerHTML = '没有更多数据啦!';
+##                loadDiv.style.display = 'block';
+##
+##                // 2s后隐藏
+##                setTimeout(function() {
+##                    loadDiv.style.display = 'none';
+##                }, 1000);
+##            }
+##            // 加载下一页
+##            else {
+##                if(flag&&totalPage!=0) {
+##                    loadDiv.innerHTML = '加载中...';
+##                    loadDiv.style.display = 'block';
+##                    loadData(page + 1);
+##                    setTimeout(function() {
+##                        loadDiv.style.display = 'none';
+##                    }, 1000);
+##                }
+##            }
+##        }
+##    });
+##    // 判断是否滑倒最后一行,否则就加载数据
+##    function isLoadData() {
+##        var $row = $('.table-striped');
+##        var $last = $($row.last().get(0));
+##
+##        // 拉到倒数第二个开始,进行加载
+##        var lastRowHeight = $last.position().top - $last.height();
+##
+##        var scrollTop = $(window).scrollTop();
+##        var windowHeight = $(window).height();
+##
+##        return (lastRowHeight < (scrollTop + windowHeight)) ? true : false;
+##    }
 </script>

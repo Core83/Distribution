@@ -20,7 +20,7 @@ public class UnSubscribeHandler implements EventHandle<BaseEvent> {
     @Override
     public BaseMsg handle(BaseEvent baseEvent) {
         log.debug("=============unsubscribe====================");
-        WxUserInfo user = wxUserInfoService.getUserIdByOpenId(baseEvent.getFromUserName());
+        WxUserInfo user = wxUserInfoService.getUserIdByOpenIdSub(baseEvent.getFromUserName());
         user.setSubscribe(0);
         try {
             wxUserInfoService.insertOrUpdateWxUser(user);
