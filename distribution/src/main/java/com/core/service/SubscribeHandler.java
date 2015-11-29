@@ -20,23 +20,21 @@ import org.springframework.stereotype.Service;
  * Created by core on 15/11/4.
  */
 @Service("subcriberHandler")
-public class SubscribeHandler implements EventHandle<QrCodeEvent> {
+public class SubscribeHandler implements EventHandle<BaseEvent> {
     private static Logger log= LoggerFactory.getLogger(SubscribeHandler.class);
     @Autowired
     private  IWxUserInfoService wxUserInfoService;
     @Override
-    public BaseMsg handle(QrCodeEvent qrCodeEvent) {
+    public BaseMsg handle(BaseEvent qrCodeEvent) {
        log.debug("=============subscribe====================");
-        WxUserInfo user = new WxUserInfo();
-        user=wxUserInfoService.getUserIdByOpenId(qrCodeEvent.getFromUserName());
-        WxUserInfo parent=null;
-        if(qrCodeEvent.getTicket()!=null){
-            parent=wxUserInfoService.getUserByTicket(qrCodeEvent.getTicket());
-        }
+        WxUserInfo user=wxUserInfoService.getUserIdByOpenIdSub(qrCodeEvent.getFromUserName());
+//        WxUserInfo parent=wxUserInfoService.getUserByTicket(qrCodeEvent.getTicket());
         String message="亲，您终于来了！\n";
         try{
             ApiConfig config=new ApiConfig(Config.APPID,Config.AppSecret,true);
             GetUserInfoResponse userInfoResponse=new UserAPI(config).getUserInfo(qrCodeEvent.getFromUserName());
+            if (user==null)
+                user= new WxUserInfo();
             user.setOpenId(userInfoResponse.getOpenid());
             user.setNickname(userInfoResponse.getNickname());
             user.setCity(userInfoResponse.getCity());
@@ -46,10 +44,10 @@ public class SubscribeHandler implements EventHandle<QrCodeEvent> {
             user.setSex(userInfoResponse.getSex());
             user.setCreatetime(DateUtil.getCurrent());
             user.setSubscribe(1);
-            if (parent!=null){
-                user.setParentid(parent.getUserId());
-                message+="恭喜你由"+parent.getNickname()+"推荐成为"+parent.getNickname()+"家族的成员。";
-            }
+//            if (parent!=null){
+//                user.setParentid(parent.getUserId());
+//                message+="恭喜你由"+parent.getNickname()+"推荐成为"+parent.getNickname()+"家族的成员。";
+//            }
           wxUserInfoService.insertOrUpdateWxUser(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,8 +59,8 @@ public class SubscribeHandler implements EventHandle<QrCodeEvent> {
     }
 
     @Override
-    public boolean beforeHandle(QrCodeEvent qrCodeEvent) {
-        return "subscribe".equals(qrCodeEvent.getEvent());
+    public boolean beforeHandle(BaseEvent qrCodeEvent) {
+        return qrCodeEvent.getClass()==BaseEvent.class&&"subscribe".equals(qrCodeEvent.getEvent());
     }
 
 }

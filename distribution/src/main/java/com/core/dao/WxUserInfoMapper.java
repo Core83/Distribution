@@ -144,4 +144,5 @@ public interface WxUserInfoMapper {
     int updateByPrimaryKey(WxUserInfo record);
 
    List<Integer> selectSons(@Param("id") Integer id);
+    List<Integer> selectGrandSons(@Param("id") Integer id);
 }

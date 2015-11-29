@@ -17,7 +17,7 @@ public class WxPayInfoServiceImpl implements IWxPayInfoService {
     @Autowired
     private WxPayInfoMapper payInfoMapper;
     @Override
-    public List<WxPayInfo> getPayInfoByOrderId(Integer orderId) {
+    public List<WxPayInfo> getPayInfoByOrderId(Long orderId) {
         WxPayInfoExample example=new WxPayInfoExample();
         example.createCriteria().andOrderIdEqualTo(orderId);
         return payInfoMapper.selectByExample(example);

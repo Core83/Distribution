@@ -1,5 +1,7 @@
 package com.core.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -32,7 +34,7 @@ public class SequenceUtil {
         sb.append(format.format(dt)).append(random.nextInt(100000)).append(random.nextInt(100000));
         return sb.toString();
     }
-    public static void main(String[] args)  {
-        System.out.println(redId());
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        System.out.println("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+URLEncoder.encode("gQG87zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3FUbXU5YXJsSjAxZXNJWUZ3UlVXAAIEbL5SVgMEAAAAAA==", "UTF-8"));
     }
 }

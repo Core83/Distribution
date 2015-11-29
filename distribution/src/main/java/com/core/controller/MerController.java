@@ -149,7 +149,7 @@ public class MerController {
         unifiedorder.setAppid(Config.APPID);
         unifiedorder.setMch_id(Config.MCHID);
         unifiedorder.setNonce_str(PayUtil.getNonceStr());
-        unifiedorder.setBody(CachedDict.getCachedName("MER_NAME",String.valueOf(orderInfo.getGdsId()),""));
+        unifiedorder.setBody("乐享微赢");
         unifiedorder.setOut_trade_no(orderId + "");
         unifiedorder.setTotal_fee(orderInfo.getGdsAmount().toString());
         unifiedorder.setSpbill_create_ip(InetAddress.getLocalHost().getHostAddress());

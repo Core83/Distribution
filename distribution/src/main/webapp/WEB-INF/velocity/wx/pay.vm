@@ -69,7 +69,7 @@
                     "paySign" : "${paySign}"
                 },function(res){
                     if(res.err_msg == 'get_brand_wcpay_request:ok'){
-                        window.location.href="${CONTEXT_PATH}/weixin/order/init?openId=$!{openId}";
+                        window.location.href="${CONTEXT_PATH}/order/init?openId=$!{openId}";
                     }else{
                         //支付失败
                         alert("支付失败");

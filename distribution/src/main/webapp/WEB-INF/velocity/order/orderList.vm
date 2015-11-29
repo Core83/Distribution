@@ -20,12 +20,12 @@
                     <div class="p25">
                         <ul>
                             <li>
-                                <input type="text" class="form-control2" placeholder="商品名">
+                                <input type="text" class="form-control2" name="gdsTitle" placeholder="商品名">
                             </li>
                         </ul>
                     </div>
                     <div class="modal-footer btn-footer">
-                        <button type="button" class="btn btn-default btn-block">
+                        <button type="button" class="btn btn-default btn-block" >
 			                        <span class="fa fa-search">
 			                        </span>
                             查询
@@ -34,6 +34,7 @@
                 </div>
             </div>
         </div>
+       <div id="list">
         #if(!$orders)
             <h3 style="text-align: center">
                 您没有订单信息!
@@ -83,7 +84,10 @@
             </ul>
         </div>
         #end
+       </div>
     </section>
+    <!-- 加载中 -->
+    <div class="load" id="load" style="display: none;">加载中...</div>
 </div>
 <div class="nav-bottom">
     <div class="col-xs-3 ">
@@ -111,3 +115,58 @@
         </a>
     </div>
 </div>
+<script>
+
+    var totalPage = 0,page=1;
+    // 是否可以加载
+    var flag = true;
+    var loadDiv = document.getElementById('load');
+    function goMain (path,pageNo,Total) {
+        $("#list").load(path,{page: pageNo}, function(){
+            totalPage=Math.ceil(parseInt(Total) / parseInt(10));
+            alert(totalPage);
+        });
+    }
+    function loadData(pageNO){
+        $("#list").load(path, {page: pageNO});
+
+    }
+    $(window).on('scroll', function() {
+        if(isLoadData()){
+            // 已经是最后一页
+            if(page >= totalPage&&totalPage!=0) {
+                loadDiv.innerHTML = '没有更多数据啦!';
+                loadDiv.style.display = 'block';
+
+                // 2s后隐藏
+                setTimeout(function() {
+                    loadDiv.style.display = 'none';
+                }, 1000);
+            }
+            // 加载下一页
+            else {
+                if(flag&&totalPage!=0) {
+                    loadDiv.innerHTML = '加载中...';
+                    loadDiv.style.display = 'block';
+                    loadData(page + 1);
+                    setTimeout(function() {
+                        loadDiv.style.display = 'none';
+                    }, 1000);
+                }
+            }
+        }
+    });
+    // 判断是否滑倒最后一行,否则就加载数据
+    function isLoadData() {
+        var $row = $('.order-list');
+        var $last = $($row.last().get(0));
+
+        // 拉到倒数第二个开始,进行加载
+        var lastRowHeight = $last.position().top - $last.height();
+
+        var scrollTop = $(window).scrollTop();
+        var windowHeight = $(window).height();
+
+        return (lastRowHeight < (scrollTop + windowHeight)) ? true : false;
+    }
+</script>

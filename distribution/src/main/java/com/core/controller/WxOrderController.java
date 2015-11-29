@@ -6,11 +6,13 @@ import com.core.service.*;
 import com.core.util.CachedDict;
 import com.core.util.RedPacketAPI;
 import com.core.util.SequenceUtil;
+import com.core.util.entity.PayNotify;
 import com.core.util.entity.RedPacketRequest;
 import com.core.util.entity.RedPacketResult;
 import com.iboot.weixin.util.MapUtil;
 import com.iboot.weixin.util.PayUtil;
 import com.iboot.weixin.util.SignatureUtil;
+import com.iboot.weixin.util.XMLConverUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -73,7 +75,9 @@ public class WxOrderController {
         return "order/orderDetail";
     }
     @RequestMapping(value="/notify")
-    public @ResponseBody void weixinnotify(HttpServletRequest request){
+    public @ResponseBody String weixinnotify(HttpServletRequest request) {
+        String result = null;
+        PayNotify notify = new PayNotify();
         try {
             ServletInputStream in = request.getInputStream();
             SAXReader saxReader = new SAXReader();
@@ -84,53 +88,78 @@ public class WxOrderController {
             String total_fee = checkElementIsNotNull(root.element("total_fee"));
             String order_id = checkElementIsNotNull(root.element("out_trade_no"));
             String time_end = checkElementIsNotNull(root.element("time_end"));
-            Integer payId=Integer.valueOf(order_id.substring(order_id.length() - 9, order_id.length() - 1));
-            if(!"".equals(order_id)){
-                List<WxPayInfo> listPayInfo = wxservice.getPayInfoByOrderId(payId);
-                if(listPayInfo==null || listPayInfo.size()==0){
+            String return_code = checkElementIsNotNull(root.element("return_code"));
+            String return_msg = checkElementIsNotNull(root.element("return_msg"));
+            if (!"".equals(order_id)) {
+                notify.setReturn_code(return_code);
+                notify.setReturn_msg(return_msg);
+                List<WxPayInfo> listPayInfo = wxservice.getPayInfoByOrderId(Long.valueOf(order_id));
+                if (listPayInfo == null || listPayInfo.size() == 0) {
                     WxPayInfo payInfo = new WxPayInfo();
-                    payInfo.setOrderId(payId);
-                    SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddhhmmss");
+                    payInfo.setOrderId(Long.valueOf(order_id));
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
                     Timestamp ts = new Timestamp(sdf.parse(time_end).getTime());
                     payInfo.setPayTime(ts);
                     payInfo.setPayAmount(Integer.parseInt(total_fee));
                     wxservice.insertWxPayInfo(payInfo);
-                    WxOrderInfo wxorder = new WxOrderInfo();
-                    wxorder.setOrderId(Long.parseLong(order_id));
+                    WxOrderInfo wxorder = orderService.getById(Long.valueOf(order_id));
                     wxorder.setPayStatus(1);
                     wxorder.setStatus(2);
                     orderService.insertOrUpdateWxOrder(wxorder);
-                    wxorder=orderService.getById(Long.parseLong(order_id));
-                    WxUserInfo parent=  userInfoService.getParentOpenId(orderService.getById(Long.parseLong(order_id)).getUserId());
-                    Integer parentId=parent.getParentid();
-                    WxUserInfo grandPa=userInfoService.getParentOpenId(parentId);
-                    WxUserExt ext=new WxUserExt();
+                    WxUserInfo parent = userInfoService.getParentOpenId(wxorder.getUserId());
+                    WxUserInfo grandPa = null;
+                    if (parent != null) {
+                        Integer parentId = parent.getParentid();
+                        if (parentId != null && "".equals(parentId))
+                            grandPa = userInfoService.getParentOpenId(parentId);
+                    }
+
+                    WxUserExt ext = new WxUserExt();
                     ext.setUserId(wxorder.getUserId());
                     ext.setExtKey("LEVEL");
-                    int count=wxorder.getGdsCount()%6;
-                    switch (count){
-                        case 1:ext.setExtValue("1");red(parent.getOpenId(), String.valueOf(wxorder.getGdsAmount()* 0.05));break;
-                        case 2:ext.setExtValue("2");
-                               if(Integer.valueOf(CachedDict.getCachedName("LEVEL",String.valueOf(parent.getUserId()),""))>=2){
-                                   red(parent.getOpenId(), String.valueOf(wxorder.getGdsAmount()* 0.05));
-                               }
-                               if(Integer.valueOf(CachedDict.getCachedName("LEVEL",String.valueOf(grandPa.getUserId()),""))>=2){
-                                    red(parent.getOpenId(), String.valueOf(wxorder.getGdsAmount()* 0.1));
-                               }
-                               break;
+                    int count = wxorder.getGdsCount();
+                    switch (count) {
+                        case 1:
+                            ext.setExtValue("1");
+                            if (parent != null) {
+                                red(parent.getOpenId(), "900");
+                            }
+                            break;
                         case 3:
-                        case 4:
-                        case 5:
-                        case 0:ext.setExtValue("3");
-                            if(Integer.valueOf(CachedDict.getCachedName("LEVEL",String.valueOf(parent.getUserId()),""))>=3){
-                            red(parent.getOpenId(), String.valueOf(wxorder.getGdsAmount()* 0.05));
+                            ext.setExtValue("2");
+                            if (parent != null) {
+                                if (Integer.valueOf(CachedDict.getCachedName("LEVEL", String.valueOf(parent.getUserId()), "") == null ? "0" : CachedDict.getCachedName("LEVEL", String.valueOf(parent.getUserId()), "")) >= 2) {
+                                    red(parent.getOpenId(), "900");
+                                }
+                                if (parent.getParentid() != null) {
+                                    if (Integer.valueOf(CachedDict.getCachedName("LEVEL", String.valueOf(grandPa.getUserId()), "") == null ? "0" : CachedDict.getCachedName("LEVEL", String.valueOf(parent.getUserId()), "")) >= 2) {
+                                        red(parent.getOpenId(), "1800");
+                                    }
+                                }
+
                             }
-                            if(Integer.valueOf(CachedDict.getCachedName("LEVEL",String.valueOf(grandPa.getUserId()),""))>=3){
-                                red(parent.getOpenId(), String.valueOf(wxorder.getGdsAmount()* 0.1));
+                            break;
+                        case 6:
+                            ext.setExtValue("3");
+                            if (parent != null) {
+                                if (Integer.valueOf(CachedDict.getCachedName("LEVEL", String.valueOf(parent.getUserId()), "") == null ? "0" : CachedDict.getCachedName("LEVEL", String.valueOf(parent.getUserId()), "")) >= 3) {
+                                    red(parent.getOpenId(), "900");
+                                }
+                                if (parent.getParentid() != null) {
+                                    if (Integer.valueOf(CachedDict.getCachedName("LEVEL", String.valueOf(grandPa.getUserId()), "") == null ? "0" : CachedDict.getCachedName("LEVEL", String.valueOf(parent.getUserId()), "")) >= 3) {
+                                        red(parent.getOpenId(), "1800");
+                                    }
+                                }
+
                             }
-                            if(Integer.valueOf(CachedDict.getCachedName("LEVEL",String.valueOf(grandPa.getParentid()),""))>=3){
-                                WxUserInfo info=  userInfoService.getUserById(grandPa.getParentid());
-                                red(info.getOpenId(), String.valueOf(wxorder.getGdsAmount() * 0.15));
+                            if (grandPa != null && grandPa.getParentid() != null) {
+                                if (Integer.valueOf(CachedDict.getCachedName("LEVEL", String.valueOf(grandPa.getParentid()), "") == null ? "0" : CachedDict.getCachedName("LEVEL", String.valueOf(parent.getUserId()), "")) >= 3) {
+                                    WxUserInfo info = userInfoService.getUserById(grandPa.getParentid());
+                                    if (info != null) {
+                                        red(info.getOpenId(), "2700");
+                                    }
+
+                                }
                             }
                             break;
                     }
@@ -140,8 +169,11 @@ public class WxOrderController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            notify.setReturn_code("FAIL");
         }
+        result = XMLConverUtil.convertToXml(notify, "UTF-8");
         System.out.println("--------weixin notify--------");
+        return result;
     }
     private String checkElementIsNotNull(Element e){
         if(e!=null){
@@ -175,7 +207,7 @@ public class WxOrderController {
         re.setAct_name("佣金返还活动");
         re.setRemark("佣金返还");
         Map<String, String> map = MapUtil.objectToMap(re, null);
-        String sign = SignatureUtil.generateSign(map, Config.MCHID);
+        String sign = SignatureUtil.generateSign(map,Config.singKey);
         re.setSign(sign);
         RedPacketResult result=RedPacketAPI.payRed(re);
         return result;

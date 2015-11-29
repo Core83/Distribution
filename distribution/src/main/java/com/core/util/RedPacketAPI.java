@@ -64,12 +64,12 @@ public class RedPacketAPI extends BasePayAPI {
         re.setNick_name("pxh");
         re.setSend_name("pxh");
         re.setRe_openid("o0kTKwrbr49aaVSNvtuRIffV9QWc");
-        re.setTotal_amount("4000");
-        re.setMax_value("4000");
-        re.setMin_value("4000");
+        re.setTotal_amount("600");
+        re.setMax_value("600");
+        re.setMin_value("600");
         re.setTotal_num("1");
         re.setWishing("sfsd");
-        re.setMch_billno(Config.MCHID+"201511191234567895");
+        re.setMch_billno(Config.MCHID+"201511191234567898");
         InetAddress ia=InetAddress.getLocalHost();
         re.setClient_ip(ia.getHostAddress().toString());
         re.setAct_name("yjfh");

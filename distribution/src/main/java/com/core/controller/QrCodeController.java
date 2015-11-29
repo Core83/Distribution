@@ -5,6 +5,8 @@ import com.core.model.WxOrderInfo;
 import com.core.model.WxUserInfo;
 import com.core.service.IWxOrderService;
 import com.core.service.IWxUserInfoService;
+import com.core.util.CachedDict;
+import com.core.util.QrCodeUtil;
 import com.iboot.weixin.api.OauthAPI;
 import com.iboot.weixin.api.QrcodeAPI;
 import com.iboot.weixin.api.config.ApiConfig;
@@ -23,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -47,18 +50,23 @@ public class QrCodeController {
             model.addAttribute("openId",openId);
             WxUserInfo user=userInfoService.getUserIdByOpenId(openId);
             String ticket = user.getTicket();
+            String qrCode="";
             if (StringUtils.isNotBlank(ticket)) {
-                model.addAttribute("qrCode", "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + URLEncoder.encode(ticket, "UTF-8"));
+                qrCode=QrCodeUtil.DecoderQRCode("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + URLEncoder.encode(ticket, "UTF-8"));
+                model.addAttribute("qrCode", qrCode);
             }else{
-               List<WxOrderInfo> orders= orderService.getListByUser(user.getUserId());
-                if (orders!=null&&orders.size()>0){
+//               List<WxOrderInfo> orders= orderService.getListByUser(user.getUserId());
+               String level= CachedDict.getCachedName("LEVEL", String.valueOf(user.getUserId()), "");
+                if (StringUtils.isNotBlank(level)){
                     QrcodeAPI qrcodeAPI=new QrcodeAPI(config);
                     QrcodeResponse response=qrcodeAPI.createQrcode(QrcodeType.QR_LIMIT_SCENE,String.valueOf(user.getUserId()),0);
                     user.setTicket(response.getTicket());
                     userInfoService.insertOrUpdateWxUser(user);
-                    model.addAttribute("qrCode", "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + URLEncoder.encode(response.getTicket(), "UTF-8"));
+                    qrCode= QrCodeUtil.DecoderQRCode("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + URLEncoder.encode(response.getTicket(), "UTF-8"));
+                    model.addAttribute("qrCode", qrCode);
                 }
             }
+            model.addAttribute("img",user.getHeadimgurl());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -82,5 +90,9 @@ public class QrCodeController {
             }
         }
         return "/404";
+    }
+
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        System.out.println("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+URLEncoder.encode("gQG87zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3FUbXU5YXJsSjAxZXNJWUZ3UlVXAAIEbL5SVgMEAAAAAA==", "UTF-8"));
     }
 }

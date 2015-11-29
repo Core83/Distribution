@@ -118,6 +118,9 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+      <if test="limitClauseStart !=null">
+          limit #{limitClauseStart,jdbcType=INTEGER}, #{limitClauseCount,jdbcType=INTEGER}
+      </if>
   </select>
   <delete id="deleteByExample" parameterType="com.core.model.WxUserInfoExample">
     <!--
@@ -361,5 +364,11 @@
       </if>
 
   </select>
-
+    <select id="selectGrandSons" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT distinct user_id from wx_user_info where subscribe=1 and  user_id in ( select distinct user_id from wx_user_info where subscribe=1
+        <if test="id != null">
+            and parentId=#{id}
+        </if>
+        )
+    </select>
 </mapper>
