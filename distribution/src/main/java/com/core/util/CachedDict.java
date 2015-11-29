@@ -22,7 +22,7 @@ public class CachedDict {
             }else {
                 vc = viewCacheService.findCacheByKeyAndValue(key, value);
             }
-            return vc != null ? vc.getpDesc() : value;
+            return vc != null ? vc.getpDesc() : null;
         } else
         {
             return "";

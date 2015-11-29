@@ -19,11 +19,11 @@ public class Config {
 
     //
     public static final String TOKEN = "5fsgSxen8fsdp5uNEMm3";
-    public static final String APPID = "wxaec7de22b7b9dd81";
+    public static final String APPID ="wxaec7de22b7b9dd81";
     public static final String AppSecret="68167a66af466886202560942677ab7d";
     public static final String AESKey = "moRVtoOLenldTkDkKfYxBbfejDrwSqAeEsaYHOJLbVO";
     public static final String MCHID="1285414101";
-    public static final String APPNAME="品尚会";
+    public static final String APPNAME="乐享微赢";
     public static final String SER_URL="http://095398.ichengyun.net";
     public static final String SER_URLS="http://69a441a0.ngrok.io";
     public static final String keyStoreFilePath="D:\\apache-tomcat-7.0.55-windows-x64\\apache-tomcat-7.0.55\\webapps\\distribution\\statics\\cert\\apiclient_cert.p12";
